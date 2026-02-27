@@ -1,0 +1,41 @@
+# ============================================================================
+# REQUIREMENTS.TXT - Modelo Lineal OCT
+# ============================================================================
+# Proyecto: Clasificación de Imágenes OCT con Regresión Logística
+# Dataset: Kermany et al. 2018 Mendeley Data V3
+# ============================================================================
+
+# --- Core ML & Data Science ---
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+scikit-learn>=1.3.0,<2.0.0
+
+# --- Deep Learning (para dataloaders) ---
+tensorflow>=2.13.0,<3.0.0
+
+# --- Visualización ---
+matplotlib>=3.7.0,<4.0.0
+seaborn>=0.12.0,<1.0.0
+
+# --- Dataset Management ---
+kagglehub>=0.2.0
+
+# --- Utilidades ---
+joblib>=1.3.0
+
+# ============================================================================
+# NOTAS DE INSTALACIÓN
+# ============================================================================
+# 
+# Para instalar todas las dependencias:
+#   pip install -r requirements.txt
+#
+# Para Google Colab (opcional, ya vienen pre-instaladas muchas):
+#   !pip install -r requirements.txt
+#
+# Requerimientos del sistema:
+#   - Python >= 3.9
+#   - RAM recomendada: 12 GB (para Google Colab Free)
+#   - Espacio en disco: ~5 GB (para dataset completo)
+#
+# ============================================================================
