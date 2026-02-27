@@ -111,6 +111,8 @@ En aplicaciones médicas es especialmente relevante:
 | Árbol de Decisión | 875 nodos | Profundidad: 20 | 0.6875 | 0.6072 | 0.6027 |
 | Red Neuronal Simple | 131,236 parámetros | 1 capa oculta (32 neuronas) | 0.4714 | 0.4702 | 0.4700 |
 
+**Nota sobre la Red Neuronal Simple:** El modelo alcanza un accuracy de ~47% porque el dataset contiene aproximadamente 47% de muestras de la clase NORMAL, y el modelo ha colapsado prediciendo siempre esta clase mayoritaria. Este es un problema común en redes muy simples que no logran aprender patrones discriminativos y se limitan a predecir la clase más frecuente como estrategia por defecto.
+
 ---
 
 # 🛠️ Tecnologías Utilizadas
