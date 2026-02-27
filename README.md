@@ -101,7 +101,7 @@ En aplicaciones médicas es especialmente relevante:
 
 ---
 
-# � Resultados de Modelos
+# 📊 Resultados de Modelos
 
 ## Modelos Implementados
 
@@ -109,10 +109,11 @@ En aplicaciones médicas es especialmente relevante:
 |--------|------------------|----------|-----------|----------------|----------|
 | Modelo Lineal (Regresión Logística) | 49,156 parámetros | Imágenes 64×64 escala grises | 0.6879 | 0.6024 | 0.6021 |
 | Árbol de Decisión | 875 nodos | Profundidad: 20 | 0.6875 | 0.6072 | 0.6027 |
+| Red Neuronal Simple | 131,236 parámetros | 1 capa oculta (32 neuronas) | 0.4714 | 0.4702 | 0.4700 |
 
 ---
 
-# �🛠️ Tecnologías Utilizadas
+# 🛠️ Tecnologías Utilizadas
 
 - Python 3.x
 - TensorFlow / Keras
