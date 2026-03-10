@@ -110,8 +110,10 @@ En aplicaciones médicas es especialmente relevante:
 | Modelo Lineal (Regresión Logística) | 49,156 parámetros | Imágenes 64×64 escala grises | 0.6879 | 0.6024 | 0.6021 |
 | Árbol de Decisión | 875 nodos | Profundidad: 20 | 0.6875 | 0.6072 | 0.6027 |
 | Red Neuronal Simple | 131,236 parámetros | 1 capa oculta (32 neuronas) | 0.4714 | 0.4702 | 0.4700 |
+| CNN Básica | 1,189,124 parámetros | 3 capas Conv + 1 Densa (128x128) | *Pendiente* | *Pendiente* | *Pendiente* |
+| Transfer Learning (VGG16) | 14,847,044 parámetros | VGG16 (ImageNet), entrenando top | *Pendiente* | *Pendiente* | *Pendiente* |
 
-**Nota sobre la Red Neuronal Simple:** El modelo alcanza un accuracy de ~47% porque el dataset contiene aproximadamente 47% de muestras de la clase NORMAL, y el modelo ha colapsado prediciendo siempre esta clase mayoritaria. Este es un problema común en redes muy simples que no logran aprender patrones discriminativos y se limitan a predecir la clase más frecuente como estrategia por defecto.
+**Nota sobre los modelos de Deep Learning:** Los nuevos notebooks preparados en la carpeta `/notebooks` están listos para ser ejecutados siguiendo una progresión de complejidad: desde la red neuronal simple hasta el uso de Transfer Learning avanzado.
 
 ---
 
