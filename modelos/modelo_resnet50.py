@@ -8,7 +8,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.applications import ResNet50
 
-def create_resnet_model(input_shape=(128, 128, 3), num_classes=4, dropout_rate=0.4):
+def create_resnet_model(input_shape=(224, 224, 3), num_classes=4, dropout_rate=0.4):
     """
     Crea un modelo basado en ResNet50 preentrenado.
     Nota: ResNet50 requiere que las imágenes tengan 3 canales (RGB).
@@ -48,13 +48,13 @@ def compile_resnet_model(model, learning_rate=0.001, metrics=['accuracy']):
     )
     return model
 
-def get_resnet_callbacks(patience_stop=6, patience_lr=3, factor_lr=0.2):
+def get_resnet_callbacks(patience_stop=6, patience_lr=3, factor_lr=0.2, monitor_stop='val_loss', weights_path='modelos/best_resnet50.h5'):
     """
-    Retorna los callbacks para EarlyStopping y ReduceLROnPlateau.
+    Retorna los callbacks para EarlyStopping, ReduceLROnPlateau y ModelCheckpoint.
     """
     callbacks = [
         tf.keras.callbacks.EarlyStopping(
-            monitor='val_loss',
+            monitor=monitor_stop,
             patience=patience_stop,
             restore_best_weights=True,
             verbose=1
@@ -64,6 +64,13 @@ def get_resnet_callbacks(patience_stop=6, patience_lr=3, factor_lr=0.2):
             factor=factor_lr,
             patience=patience_lr,
             min_lr=1e-7,
+            verbose=1
+        ),
+        tf.keras.callbacks.ModelCheckpoint(
+            filepath=weights_path,
+            monitor=monitor_stop,
+            save_best_only=True,
+            save_weights_only=True,
             verbose=1
         )
     ]
