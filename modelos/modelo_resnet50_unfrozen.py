@@ -48,7 +48,7 @@ def compile_resnet_model(model, learning_rate=0.001, metrics=['accuracy']):
     )
     return model
 
-def get_resnet_callbacks(patience_stop=6, patience_lr=3, factor_lr=0.2, monitor_stop='val_loss', weights_path='modelos/best_resnet50.h5'):
+def get_resnet_callbacks(patience_stop=6, patience_lr=3, factor_lr=0.2, monitor_stop='val_loss', weights_path='modelos/best_resnet50.weights.h5'):
     """
     Retorna los callbacks para EarlyStopping, ReduceLROnPlateau y ModelCheckpoint.
     Crea el directorio de weights_path si no existe.
