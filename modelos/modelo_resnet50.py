@@ -51,7 +51,15 @@ def compile_resnet_model(model, learning_rate=0.001, metrics=['accuracy']):
 def get_resnet_callbacks(patience_stop=6, patience_lr=3, factor_lr=0.2, monitor_stop='val_loss', weights_path='modelos/best_resnet50.h5'):
     """
     Retorna los callbacks para EarlyStopping, ReduceLROnPlateau y ModelCheckpoint.
+    Crea el directorio de weights_path si no existe.
     """
+    import os
+    
+    # Crear el directorio si no existe para evitar el FileNotFoundError
+    checkpoint_dir = os.path.dirname(weights_path)
+    if checkpoint_dir and not os.path.exists(checkpoint_dir):
+        os.makedirs(checkpoint_dir, exist_ok=True)
+
     callbacks = [
         tf.keras.callbacks.EarlyStopping(
             monitor=monitor_stop,
