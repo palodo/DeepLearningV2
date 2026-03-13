@@ -14,6 +14,7 @@ def create_oct_dataloaders(
     img_size: Tuple[int, int] = (224, 224),
     batch_size: int = 32,
     color_mode: str = 'grayscale',
+    label_mode: str = 'int',
     train_subset_fraction: float = 1.0,
     seed: int = 42,
     validation_split: Optional[float] = None,
@@ -33,6 +34,12 @@ def create_oct_dataloaders(
     batch_size : int, opcional
         Número de imágenes por lote
         Por defecto: 32
+    color_mode : str, opcional
+        'grayscale' o 'rgb'
+        Por defecto: 'grayscale'
+    label_mode : str, opcional
+        'int' (para sparse_categorical_crossentropy) o 'categorical' (para categorical_crossentropy)
+        Por defecto: 'int'
     train_subset_fraction : float, opcional
         Fracción del dataset de entrenamiento a utilizar (entre 0.0 y 1.0)
         Por defecto: 1.0 (usar todo el dataset)
@@ -77,6 +84,7 @@ def create_oct_dataloaders(
         print("⚙️ Configuración de DataLoaders")
         print(f"   • Tamaño de imagen: {img_size}")
         print(f"   • Batch size: {batch_size}")
+        print(f"   • Label mode: {label_mode}")
         print(f"   • Clases: {class_names}")
         print(f"   • Train subset: {train_subset_fraction*100:.1f}%")
         print(f"   • Seed: {seed}\n")
@@ -96,7 +104,7 @@ def create_oct_dataloaders(
     train_dataset = tf.keras.utils.image_dataset_from_directory(
         train_path,
         labels='inferred',
-        label_mode='int',
+        label_mode=label_mode,
         class_names=class_names,
         color_mode=color_mode,
         batch_size=batch_size,
@@ -138,7 +146,7 @@ def create_oct_dataloaders(
         val_dataset = tf.keras.utils.image_dataset_from_directory(
             val_path,
             labels='inferred',
-            label_mode='int',
+            label_mode=label_mode,
             class_names=class_names,
             color_mode=color_mode,
             batch_size=batch_size,
@@ -177,7 +185,7 @@ def create_oct_dataloaders(
         test_dataset = tf.keras.utils.image_dataset_from_directory(
             test_path,
             labels='inferred',
-            label_mode='int',
+            label_mode=label_mode,
             class_names=class_names,
             color_mode=color_mode,
             batch_size=batch_size,
