@@ -3,15 +3,23 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import tfswin
 
-def create_pretrained_swin(input_shape=(128, 128, 3), num_classes=4, dropout_rate=0.3):
+def create_pretrained_swin(input_shape=(224, 224, 3), num_classes=4, dropout_rate=0.3, use_augmentation=False):
     """
-    Crea un modelo Swin Transformer utilizando pesos pre-entrenados (Transfer Learning).
-    Nota: Swin suele requerir imágenes de 3 canales (RGB). Si tus datos son escala de grises,
-    se deben convertir a 3 canales antes de pasarlos al modelo.
+    Crea un modelo Swin Transformer utilizando pesos pre-entrenados.
     """
     
-    # Base del modelo Swin (Tiny o Base) pre-entrenado en ImageNet
-    # Tiny es más ligero y adecuado para experimentos rápidos
+    inputs = layers.Input(shape=input_shape)
+    x = inputs
+
+    # Data Augmentation integrado en el modelo (se activa solo durante model.fit)
+    if use_augmentation:
+        x = layers.RandomFlip("horizontal")(x)
+        x = layers.RandomRotation(0.15)(x)
+        x = layers.RandomZoom(0.1)(x)
+        x = layers.RandomContrast(0.1)(x)
+        x = layers.RandomBrightness(0.1)(x)
+
+    # Base del modelo Swin
     base_model = tfswin.SwinTransformerTiny224(
         include_top=False,
         weights='imagenet',
@@ -19,16 +27,10 @@ def create_pretrained_swin(input_shape=(128, 128, 3), num_classes=4, dropout_rat
         pooling='avg'
     )
     
-    # Congelar el modelo base (opcional, se puede descongelar para fine-tuning)
-    base_model.trainable = False
+    # Desbloqueado para entrenamiento completo
+    base_model.trainable = True
     
-    # Añadir clasificador personalizado
-    inputs = layers.Input(shape=input_shape)
-    
-    # Preprocesamiento: Swin espera valores en cierto rango (normalmente [0, 255] o [0, 1] dependiendo de la implementación)
-    # tfswin maneja la normalización internamente si se usa su función de preprocesamiento, 
-    # pero aquí asumimos que el dataloader entrega [0, 255] y re-escalamos si es necesario.
-    x = base_model(inputs, training=False)
+    x = base_model(x)
     
     x = layers.BatchNormalization()(x)
     x = layers.Dropout(dropout_rate)(x)

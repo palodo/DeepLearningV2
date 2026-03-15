@@ -8,9 +8,9 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.applications import VGG16
 
-def create_transfer_model(input_shape=(128, 128, 3), num_classes=4):
+def create_transfer_model(input_shape=(128, 128, 3), num_classes=4, use_augmentation=False):
     """
-    Crea un modelo basado en VGG16 preentrenado.
+    Crea un modelo basado en VGG16 preentrenado, con opción de incluir Data Augmentation.
     """
     # Base preentrenada (ImageNet)
     base_model = VGG16(
@@ -20,17 +20,33 @@ def create_transfer_model(input_shape=(128, 128, 3), num_classes=4):
     )
     
     # Congelar la base
-    base_model.trainable = False
+    base_model.trainable = True
     
-    # Añadir nuevas capas superiores
-    model = keras.Sequential([
+    # Configurar capas del modelo
+    model_layers = []
+    
+    # Data Augmentation (se aplica solo en entrenamiento de forma automática)
+    if use_augmentation:
+        data_augmentation = keras.Sequential([
+            layers.RandomFlip("horizontal"),
+            layers.RandomRotation(0.15),
+            layers.RandomZoom(0.1),
+            layers.RandomContrast(0.1),
+            layers.RandomBrightness(0.1),
+        ], name="data_augmentation")
+        model_layers.append(data_augmentation)
+        
+    model_layers.extend([
         base_model,
         layers.GlobalAveragePooling2D(),
         layers.Dense(256, activation='relu'),
         layers.Dropout(0.3),
         layers.Dense(num_classes, activation='softmax')
-    ], name='TransferVGG16')
+    ])
     
+    # Ensamblar modelo final
+    model = keras.Sequential(model_layers, name='TransferVGG16')
+    model.build((None,) + input_shape)
     return model
 
 def compile_model(model, learning_rate=0.001):

@@ -105,15 +105,20 @@ En aplicaciones médicas es especialmente relevante:
 
 ## Modelos Implementados
 
-| Modelo | Parámetros/Nodos | Detalles | Acc Train | Acc Validación | Acc Test |
-|--------|------------------|----------|-----------|----------------|----------|
-| Modelo Lineal (Regresión Logística) | 49,156 parámetros | Imágenes 64×64 escala grises | 0.6879 | 0.6024 | 0.6021 |
-| Árbol de Decisión | 875 nodos | Profundidad: 20 | 0.6875 | 0.6072 | 0.6027 |
-| Red Neuronal Simple | 131,236 parámetros | 1 capa oculta (32 neuronas) | 0.4714 | 0.4702 | 0.4700 |
-| CNN Básica | 1,189,124 parámetros | 3 capas Conv + 1 Densa (128x128) | *Pendiente* | *Pendiente* | *Pendiente* |
-| Transfer Learning (VGG16) | 14,847,044 parámetros | VGG16 (ImageNet), entrenando top | *Pendiente* | *Pendiente* | *Pendiente* |
+| Modelo (Notebook) | Parámetros | Detalles / Configuración | Acc / Loss Test | AUC Promedio |
+|-------------------|------------|--------------------------|-----------------|--------------|
+| Modelo Lineal (Reg. Logística) | 49,156 | Imágenes 64×64 escala grises | 0.6021 / - | - |
+| Árbol de Decisión | 875 nodos | Profundidad: 20 | 0.6027 / - | - |
+| 1 Red Neuronal Simple | 131,236 | 1 capa oculta (32 neuronas) | 0.4700 / - | - |
+| 2 CNN Básica | 4,287,620 | 3 capas Conv + 1 Densa (128x128) | 0.9121 / - | - |
+| 3 Transfer Learning (VGG16) | 14,847,044 | VGG16 (ImageNet) Fine-tuning Total | Acc: 0.9640 / Loss: 0.1156 | 0.9938 |
+| 5 Resnet50 | 24,114,308 | ResNet50 Transfer Learning base | Acc: 0.9341 / Loss: 0.2030 | 0.9842 |
+| 6 Resnet50 Unfrozen | 24,114,308 | ResNet50 Fine-tuning Total | Acc: 0.9748 / Loss: 0.0961 | 0.9970 |
+| 7 Resnet50 Unfrozen DA | 24,114,308 | ResNet50 Fine-tuning + Data Aug. | Acc: 0.9654 / Loss: 0.1055 | 0.9955 |
+| 8 CNN DA | 4,287,620 | CNN Básica + Data Augmentation | *Pendiente* | *Pendiente* |
+| 9 Swin Pretrained | 27,720,318 | Swin Transf. Tiny (Transfer L. + DA) | Acc: 0.9665 / Loss: 0.0986 | 0.9967 |
 
-**Nota sobre los modelos de Deep Learning:** Los nuevos notebooks preparados en la carpeta `/notebooks` están listos para ser ejecutados siguiendo una progresión de complejidad: desde la red neuronal simple hasta el uso de Transfer Learning avanzado.
+
 
 ---
 
