@@ -117,8 +117,9 @@ En aplicaciones médicas es especialmente relevante:
 | 7 Resnet50 Unfrozen DA | 24,114,308 | ResNet50 Fine-tuning + Data Aug. | Acc: 0.9654 / Loss: 0.1055 | 0.9955 |
 | 8 CNN DA | 4,287,620 | CNN Básica + Data Augmentation | *Pendiente* | *Pendiente* |
 | 9 Swin Pretrained | 27,720,318 | Swin Transf. Tiny (Transfer L. + DA) | Acc: 0.9665 / Loss: 0.0986 | 0.9967 |
-| **10 ResNet50 Final + DA** | **24,114,308** | **ResNet50 Fine-tuning + Data Aug. (x5 semillas)** | **Acc: 0.9712 ± 0.0021 / Loss: 0.1089** | **0.9960** |
+| **10 ResNet50 Final + DA** | **24,114,308** | **ResNet50 Fine-tuning + Data Aug. (x5 semillas)** | **Acc: 0.9671 ± 0.0021 / Loss: 0.1089** | **0.9960** |
 | **11 ResNet50 Final (NoDA)** | **24,114,308** | **ResNet50 Fine-tuning SIN Data Aug. (x5 semillas)** | **Acc: 0.9605 ± 0.0009 / Loss: 0.1795 ± 0.0044** | **N/A** |
+| **14 MobileNetV3 + DA** | **3,244,420** | **MobileNetV3Large Fine-tuning + Data Aug. (1 semilla)** | **Acc: 0.9xxx / Loss: 0.xxxx** | **0.xxxx** |
 | **12 Model Comparison** | **-** | **Análisis comparativo de trade-off entre modelos** | **Gráficas y análisis** | **-** |
 
 ---
@@ -133,7 +134,7 @@ En aplicaciones médicas es especialmente relevante:
 - Data Augmentation: RandomFlip, RandomRotation, RandomZoom, RandomContrast, RandomBrightness
 - 100 épocas por seed con Early Stopping (patience=30)
 - Visualización: Curvas por seed + gráficas superpuestas
-- **Resultado:** Test Accuracy media: 97.12% ± 0.21%
+- **Resultado:** Test Accuracy media: 96.71% ± 0.21%
 
 **Archivo:** `notebooks/10_resnet50_final.ipynb`
 
@@ -158,16 +159,16 @@ En aplicaciones médicas es especialmente relevante:
 **Propósito:** Visualizar y analizar el trade-off entre precisión, complejidad y eficiencia de todos los modelos principales, incluyendo comparación directa del impacto de Data Augmentation.
 
 **Características:**
-- Comparación de 6 modelos: CNN Básica, VGG16, ResNet50, ResNet50+DA, ResNet50 Sin DA, Swin Transformer
+- Comparación de 7 modelos: CNN Básica, VGG16, ResNet50, ResNet50+DA, ResNet50 Sin DA, Swin Transformer, MobileNetV3
 - Gráficos de trade-off:
   - **Accuracy vs Parámetros:** Evalúa si más parámetros mejoran la precisión
   - **Loss vs Parámetros:** Relación entre complejidad y pérdida
   - **Accuracy vs AUC-ROC:** Correlación entre métricas
   - **Gráficos de barras:** Comparación directa de Accuracy y Loss
 - **Análisis de Data Augmentation:** Comparación directa Notebook 10 (con DA) vs Notebook 11 (sin DA)
-  - Con DA: Test Accuracy **97.12%** ± 0.21%, Test Loss **0.1089**
+  - Con DA: Test Accuracy **96.71%** ± 0.21%, Test Loss **0.1089**
   - Sin DA: Test Accuracy **96.05%** ± 0.09%, Test Loss **0.1795**
-  - **Conclusión:** Data Augmentation mejora ~1.07% en accuracy y reduce significativamente el loss
+  - **Conclusión:** Data Augmentation mejora ~0.66% en accuracy y reduce significativamente el loss
 - Score de Eficiencia: Métrica compuesta para ranking de eficiencia
 - Tabla detallada con todas las métricas
 - Recomendaciones por caso de uso (máxima precisión, recursos limitados, investigación, etc.)
