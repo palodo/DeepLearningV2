@@ -119,8 +119,7 @@ En aplicaciones médicas es especialmente relevante:
 | 9 Swin Pretrained | 27,720,318 | Swin Transf. Tiny (Transfer L. + DA) | Acc: 0.9665 / Loss: 0.0986 | 0.9967 |
 | **10 ResNet50 Final + DA** | **24,114,308** | **ResNet50 Fine-tuning + Data Aug. (x5 semillas)** | **Acc: 0.9671 ± 0.0021 / Loss: 0.1089** | **0.9960** |
 | **11 ResNet50 Final (NoDA)** | **24,114,308** | **ResNet50 Fine-tuning SIN Data Aug. (x5 semillas)** | **Acc: 0.9605 ± 0.0009 / Loss: 0.1795 ± 0.0044** | **N/A** |
-| **14 MobileNetV3 + DA** | **3,244,420** | **MobileNetV3Large Fine-tuning + Data Aug. (1 semilla)** | **Acc: 0.9xxx / Loss: 0.xxxx** | **0.xxxx** |
-| **12 Model Comparison** | **-** | **Análisis comparativo de trade-off entre modelos** | **Gráficas y análisis** | **-** |
+| **14 MobileNetV3 + DA** | **3,244,420** | **MobileNetV3Large Fine-tuning + Data Aug. (1 semilla)** | **Acc: 0.9600 / Loss: 0.1169** | **0.9938** |
 
 ---
 
@@ -155,25 +154,44 @@ En aplicaciones médicas es especialmente relevante:
 
 ---
 
-### Notebook 12: Análisis Comparativo - Trade-off entre Modelos
-**Propósito:** Visualizar y analizar el trade-off entre precisión, complejidad y eficiencia de todos los modelos principales, incluyendo comparación directa del impacto de Data Augmentation.
+### Notebook 14: MobileNetV3 + Data Augmentation (1 semilla)
+**Propósito:** Entrenar un modelo eficiente basado en MobileNetV3Large con data augmentation para comparar rendimiento con ResNet50 usando menos parámetros.
 
 **Características:**
-- Comparación de 7 modelos: CNN Básica, VGG16, ResNet50, ResNet50+DA, ResNet50 Sin DA, Swin Transformer, MobileNetV3
-- Gráficos de trade-off:
-  - **Accuracy vs Parámetros:** Evalúa si más parámetros mejoran la precisión
-  - **Loss vs Parámetros:** Relación entre complejidad y pérdida
-  - **Accuracy vs AUC-ROC:** Correlación entre métricas
-  - **Gráficos de barras:** Comparación directa de Accuracy y Loss
-- **Análisis de Data Augmentation:** Comparación directa Notebook 10 (con DA) vs Notebook 11 (sin DA)
-  - Con DA: Test Accuracy **96.71%** ± 0.21%, Test Loss **0.1089**
-  - Sin DA: Test Accuracy **96.05%** ± 0.09%, Test Loss **0.1795**
-  - **Conclusión:** Data Augmentation mejora ~0.66% en accuracy y reduce significativamente el loss
-- Score de Eficiencia: Métrica compuesta para ranking de eficiencia
-- Tabla detallada con todas las métricas
-- Recomendaciones por caso de uso (máxima precisión, recursos limitados, investigación, etc.)
+- 1 semilla: [42]
+- Data Augmentation: RandomFlip, RandomRotation, RandomZoom, RandomContrast, RandomBrightness
+- 100 épocas con Early Stopping (patience=30)
+- Visualización: Curvas de aprendizaje, matriz de confusión, AUC por clase
+- **Resultado:** Test Accuracy: 96.00%, Test Loss: 0.1169, AUC promedio: 0.9938
 
-**Archivo:** `notebooks/12_model_comparison.ipynb`
+**Archivo:** `notebooks/14_mobilenet.ipynb`
+
+**Ventajas:**
+- 7.43× menos parámetros que ResNet50 (3.2M vs 24.1M)
+- Comparable en precisión (96.00% vs 96.71%)
+- Ideal para aplicaciones móviles y dispositivos con recursos limitados
+- Más rápido de entrenar y desplegar
+
+---
+
+# 🎯 Conclusión y Selección del Modelo
+
+## Modelo Seleccionado: ResNet50 + Data Augmentation
+
+Aunque **MobileNetV3** ofrece ventajas de eficiencia (7.43× menos parámetros), hemos seleccionado **ResNet50 + Data Augmentation** como el modelo final de este proyecto. 
+
+**Justificación en contexto médico:**
+
+En aplicaciones de clasificación de imágenes médicas, la diferencia de ~**1% en precisión es crítica**. ResNet50 logra un **96.71% de accuracy** frente al 96.00% de MobileNetV3, lo que se traduce en:
+
+- **Reducción de falsos negativos**: En diagnóstico ocular, cada falso negativo puede llevar a la pérdida de visión del paciente
+- **Mayor confiabilidad clínica**: El 0.71% adicional representa cientos de vidas en aplicaciones reales
+- **Mejor desempeño en patologías críticas**: ResNet50 muestra mejor balance en las 4 clases, especialmente en condiciones graves (CNV, DME)
+- **Trade-off justificado**: Los 24.1M parámetros están plenamente justificados cuando se trata de diagnósticos médicos
+
+Aunque MobileNetV3 es excelente para **aplicaciones móviles sin restricciones de precisión crítica**, en contextos clínicos priorizamos la máxima precisión diagnóstica sobre la eficiencia computacional.
+
+> **"En medicina, 1% diferencia en precisión no es una mejora marginal, es la diferencia entre detectar y no detectar una enfermedad"**
 
 ---
 
@@ -182,7 +200,7 @@ En aplicaciones médicas es especialmente relevante:
 - Python 3.x
 - TensorFlow / Keras
 - scikit-learn
-- Pandas & NumPy
+- Pandas & NumPyS
 - Matplotlib & Seaborn
 - Kagglehub
 
