@@ -117,8 +117,62 @@ En aplicaciones médicas es especialmente relevante:
 | 7 Resnet50 Unfrozen DA | 24,114,308 | ResNet50 Fine-tuning + Data Aug. | Acc: 0.9654 / Loss: 0.1055 | 0.9955 |
 | 8 CNN DA | 4,287,620 | CNN Básica + Data Augmentation | *Pendiente* | *Pendiente* |
 | 9 Swin Pretrained | 27,720,318 | Swin Transf. Tiny (Transfer L. + DA) | Acc: 0.9665 / Loss: 0.0986 | 0.9967 |
+| **10 ResNet50 Final + DA** | **24,114,308** | **ResNet50 Fine-tuning + Data Aug. (x5 semillas)** | **Acc: 0.9712 ± 0.0021 / Loss: 0.1089** | **0.9960** |
+| **11 ResNet50 Final (NoDA)** | **24,114,308** | **ResNet50 Fine-tuning SIN Data Aug. (x5 semillas)** | **Acc: 0.9605 ± 0.0009 / Loss: 0.1795 ± 0.0044** | **N/A** |
+| **12 Model Comparison** | **-** | **Análisis comparativo de trade-off entre modelos** | **Gráficas y análisis** | **-** |
 
+---
 
+## 📈 Notebooks Finales (Análisis Multi-Semilla y Comparación)
+
+### Notebook 10: ResNet50 + Data Augmentation - Multi-Seed (Notebook 10)
+**Propósito:** Entrenar el mejor modelo (ResNet50 descongelado) con 5 semillas diferentes para evaluar robustez y variabilidad con data augmentation.
+
+**Características:**
+- 5 semillas independientes: [42, 123, 456, 789, 999]
+- Data Augmentation: RandomFlip, RandomRotation, RandomZoom, RandomContrast, RandomBrightness
+- 100 épocas por seed con Early Stopping (patience=30)
+- Visualización: Curvas por seed + gráficas superpuestas
+- **Resultado:** Test Accuracy media: 97.12% ± 0.21%
+
+**Archivo:** `notebooks/10_resnet50_final.ipynb`
+
+---
+
+### Notebook 11: ResNet50 SIN Data Augmentation - Multi-Seed (Notebook 11)
+**Propósito:** Entrenar ResNet50 descongelado con 5 semillas **sin data augmentation** para comparar el impacto de augmentation en la generalización.
+
+**Características:**
+- 5 semillas independientes: [42, 123, 456, 789, 999]
+- **SIN Data Augmentation:** Uso directo de `train_ds`
+- 100 épocas por seed con Early Stopping (patience=30)
+- Visualización completa: Training + Validation Loss y Accuracy en cada subplot
+- Panel superpuesto mostrando validación accuracy/loss de todas las seeds
+- Tabla final con mean ± std del test accuracy
+
+**Archivo:** `notebooks/11_resnet50_final_noDA.ipynb`
+
+---
+
+### Notebook 12: Análisis Comparativo - Trade-off entre Modelos
+**Propósito:** Visualizar y analizar el trade-off entre precisión, complejidad y eficiencia de todos los modelos principales, incluyendo comparación directa del impacto de Data Augmentation.
+
+**Características:**
+- Comparación de 6 modelos: CNN Básica, VGG16, ResNet50, ResNet50+DA, ResNet50 Sin DA, Swin Transformer
+- Gráficos de trade-off:
+  - **Accuracy vs Parámetros:** Evalúa si más parámetros mejoran la precisión
+  - **Loss vs Parámetros:** Relación entre complejidad y pérdida
+  - **Accuracy vs AUC-ROC:** Correlación entre métricas
+  - **Gráficos de barras:** Comparación directa de Accuracy y Loss
+- **Análisis de Data Augmentation:** Comparación directa Notebook 10 (con DA) vs Notebook 11 (sin DA)
+  - Con DA: Test Accuracy **97.12%** ± 0.21%, Test Loss **0.1089**
+  - Sin DA: Test Accuracy **96.05%** ± 0.09%, Test Loss **0.1795**
+  - **Conclusión:** Data Augmentation mejora ~1.07% en accuracy y reduce significativamente el loss
+- Score de Eficiencia: Métrica compuesta para ranking de eficiencia
+- Tabla detallada con todas las métricas
+- Recomendaciones por caso de uso (máxima precisión, recursos limitados, investigación, etc.)
+
+**Archivo:** `notebooks/12_model_comparison.ipynb`
 
 ---
 
@@ -139,4 +193,4 @@ Pablo López Domínguez
 Proyecto desarrollado como parte de la asignatura de Deep Learning  
 Grado en Ciencia de Datos – Universitat de València  
 
-Última actualización: Febrero 2026
+Última actualización: Marzo 2026
